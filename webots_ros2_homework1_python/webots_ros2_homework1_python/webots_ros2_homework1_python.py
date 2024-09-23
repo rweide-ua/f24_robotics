@@ -233,7 +233,7 @@ class WallFollow(Node):
                 self.get_logger().info('Stopping')
                 return
         # If object in way, just turn left until we can move forward
-        elif front_lidar_min < LIDAR_AVOID_DISTANCE:
+        elif front_lidar_min < 0.5 * LIDAR_AVOID_DISTANCE:
                 self.cmd.linear.x = 0.07 
                 self.cmd.angular.z = 0.3
                 self.publisher_.publish(self.cmd)
@@ -250,7 +250,8 @@ class WallFollow(Node):
                 self.publisher_.publish(self.cmd)
                 self.get_logger().info('Turning left away from wall')
             elif right_lidar_min > 1.2 * LIDAR_AVOID_DISTANCE:
-                self.cmd.linear.x = 0.3
+                # Sanity check
+                self.cmd.linear.x = 0.0
                 self.cmd.angular.z = -0.5
                 self.publisher_.publish(self.cmd)
                 self.get_logger().info('Turning right towards wall')

@@ -9,6 +9,7 @@ from nav_msgs.msg import Odometry
 # import Quality of Service library, to set the correct profile and reliability in order to read sensor data.
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 import math
+from enum import Enum
 
 
 
@@ -161,6 +162,8 @@ class WallFollow(Node):
         self.cmd = Twist()
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
+        self.following_wall = False
+
     # Reads scan and cleans it
     def listener_callback1(self, msg1):
         #self.get_logger().info('scan: "%s"' % msg1.ranges)
@@ -217,6 +220,10 @@ class WallFollow(Node):
         #self.get_logger().info('front scan slice: "%s"'%  min(front_lidar_samples))
         #self.get_logger().info('right scan slice: "%s"'%  min(right_lidar_samples))
 
+        # Follow right wall
+
+        # At start, move forwards until wall is encountered
+
         if front_lidar_min < SAFE_STOP_DISTANCE:
             if self.turtlebot_moving == True:
                 self.cmd.linear.x = 0.0 
@@ -225,15 +232,26 @@ class WallFollow(Node):
                 self.turtlebot_moving = False
                 self.get_logger().info('Stopping')
                 return
+        # If object in way, just turn left until we can move forward
         elif front_lidar_min < LIDAR_AVOID_DISTANCE:
                 self.cmd.linear.x = 0.07 
-                if (right_lidar_min > left_lidar_min):
-                   self.cmd.angular.z = -0.3
-                else:
-                   self.cmd.angular.z = 0.3
+                self.cmd.angular.z = -0.3
                 self.publisher_.publish(self.cmd)
                 self.get_logger().info('Turning')
                 self.turtlebot_moving = True
+                # Once wall is to right, mark the bot as following the wall
+                if right_lidar_min < LIDAR_AVOID_DISTANCE:
+                    self.following_wall = True
+        # Once the bot is following the wall, adjust left and right movement to ensure we stay close to wall
+        elif self.following_wall:
+            if right_lidar_min < LIDAR_AVOID_DISTANCE:
+                self.cmd.linear.x = 0.3
+                self.cmd.angular.z = -0.1
+            else:
+                self.cmd.linear.x = 0.3
+                self.cmd.angular.z = 0.1
+            self.publisher_.publish(self.cmd)
+            self.turtlebot_moving = True
         else:
             self.cmd.linear.x = 0.3
             self.cmd.linear.z = 0.0

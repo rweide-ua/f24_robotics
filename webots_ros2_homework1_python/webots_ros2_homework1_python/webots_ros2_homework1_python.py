@@ -246,11 +246,12 @@ class WallFollow(Node):
         elif self.following_wall:
             if right_lidar_min < LIDAR_AVOID_DISTANCE:
                 self.cmd.linear.x = 0.3
-                self.cmd.angular.z = 0.1
+                self.cmd.angular.z = -0.1
             else:
                 self.cmd.linear.x = 0.3
-                self.cmd.angular.z = -0.1
+                self.cmd.angular.z = 0.1
             self.publisher_.publish(self.cmd)
+            self.get_logger().info('Following wall')
             self.turtlebot_moving = True
         else:
             self.cmd.linear.x = 0.3

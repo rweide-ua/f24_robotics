@@ -1,0 +1,24 @@
+[1.298s] Invoking command in '/mnt/g/Programming/CS 460/f24_robotics/webots_ros2_homework1_python': PYTHONPATH=/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/webots_ros2_homework1_python build --build-base /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build install --record /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log --single-version-externally-managed install_data
+[1.799s] running egg_info
+[1.803s] writing ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/PKG-INFO
+[1.807s] writing dependency_links to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/dependency_links.txt
+[1.810s] writing entry points to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/entry_points.txt
+[1.813s] writing requirements to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/requires.txt
+[1.815s] writing top-level names to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/top_level.txt
+[1.842s] reading manifest file '../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/SOURCES.txt'
+[1.888s] writing manifest file '../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/SOURCES.txt'
+[1.889s] running build
+[1.889s] running build_py
+[1.897s] copying webots_ros2_homework1_python/webots_ros2_homework1_python.py -> /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build/lib/webots_ros2_homework1_python
+[1.924s] running install
+[1.924s] running install_lib
+[1.947s] copying /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build/lib/webots_ros2_homework1_python/webots_ros2_homework1_python.py -> /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python
+[1.981s] byte-compiling /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python/webots_ros2_homework1_python.py to webots_ros2_homework1_python.cpython-310.pyc
+[2.010s] running install_data
+[2.055s] running install_egg_info
+[2.062s] removing '/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python-0.0.0-py3.10.egg-info' (and everything under it)
+[2.094s] Copying ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info to /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python-0.0.0-py3.10.egg-info
+[2.235s] running install_scripts
+[2.278s] Installing webots_ros2_homework1_python script to /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/webots_ros2_homework1_python
+[2.285s] writing list of installed files to '/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log'
+[2.304s] Invoked command in '/mnt/g/Programming/CS 460/f24_robotics/webots_ros2_homework1_python' returned '0': PYTHONPATH=/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/webots_ros2_homework1_python build --build-base /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build install --record /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log --single-version-externally-managed install_data

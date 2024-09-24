@@ -9,7 +9,8 @@ from nav_msgs.msg import Odometry
 # import Quality of Service library, to set the correct profile and reliability in order to read sensor data.
 from rclpy.qos import ReliabilityPolicy, QoSProfile
 import math
-from enum import Enum
+import csv
+import os
 
 
 
@@ -22,6 +23,7 @@ RIGHT_SIDE_INDEX = 270
 RIGHT_FRONT_INDEX = 210
 LEFT_FRONT_INDEX=150
 LEFT_SIDE_INDEX=90
+WALL_DISTANCE = 0.25 * LIDAR_AVOID_DISTANCE
 
 class RandomWalk(Node):
 
@@ -155,6 +157,19 @@ class WallFollow(Node):
             '/odom',
             self.listener_callback2,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
+        
+        # CSV for plotting
+        trial_number = 4
+        starting_pos = "area3"
+        print(os.getcwd())
+        self.csv_file = open(f'webots_ros2_homework1_python/webots_ros2_homework1_python/csv/{starting_pos}/trial{trial_number}.csv', mode='a', newline='')
+        self.csv_writer = csv.writer(self.csv_file)
+        
+        # Write header
+        self.csv_writer.writerow(['X', 'Y'])
+
+        self.front_scans = []
+
         self.laser_forward = 0
         self.odom_data = 0
         timer_period = 0.5
@@ -187,7 +202,11 @@ class WallFollow(Node):
         orientation = msg2.pose.pose.orientation
         (posx, posy, posz) = (position.x, position.y, position.z)
         (qx, qy, qz, qw) = (orientation.x, orientation.y, orientation.z, orientation.w)
-        self.get_logger().info('self position: {},{},{}'.format(posx,posy,posz));
+
+        self.csv_writer.writerow([posx, posy])
+        self.csv_file.flush()
+
+        self.get_logger().info('self position: {},{},{}'.format(posx,posy,posz))
         # similarly for twist message if you need
         self.pose_saved=position
         
@@ -215,6 +234,25 @@ class WallFollow(Node):
         left_lidar_min = min(self.scan_cleaned[LEFT_SIDE_INDEX:LEFT_FRONT_INDEX])
         right_lidar_min = min(self.scan_cleaned[RIGHT_FRONT_INDEX:RIGHT_SIDE_INDEX])
         front_lidar_min = min(self.scan_cleaned[LEFT_FRONT_INDEX:RIGHT_FRONT_INDEX])
+        self.front_scans.append(front_lidar_min)
+        if (len(self.front_scans) > 10):
+            self.front_scans.pop(0)
+        
+        # If last 10 scans have same distance of something in front, register as stuck
+        front_diff_threshold = 0.01
+        scans_sum = 0
+        for scan in self.front_scans:
+            scans_sum += scan
+        scans_sum /= 10
+        
+        # If number of scans is equal to 10, sum of scans minus the first scan is less than threshold, and latest scan isn't infinity, register as stuck
+        if ((len(self.front_scans) == 10) and (abs(scans_sum - self.front_scans[0]) < front_diff_threshold) and (front_lidar_min != 3.5)):
+            self.cmd.linear.x = 0.0 
+            self.cmd.angular.z = 0.0 
+            self.publisher_.publish(self.cmd)
+            self.turtlebot_moving = False
+            self.stall = True
+            self.get_logger().info('Stuck on something, stopping')
 
         #self.get_logger().info('left scan slice: "%s"'%  min(left_lidar_samples))
         #self.get_logger().info('front scan slice: "%s"'%  min(front_lidar_samples))
@@ -224,16 +262,27 @@ class WallFollow(Node):
 
         # At start, move forwards until wall is encountered
 
-        if front_lidar_min < SAFE_STOP_DISTANCE:
+        # Rotate and reverse slightly until hopefully out of stall
+        if self.stall:
+            self.cmd.linear.x = -0.07 
+            self.cmd.angular.z = 0.5 
+            self.publisher_.publish(self.cmd)
+            self.turtlebot_moving = True
+            self.following_wall = False
+            self.stall = False
+            self.get_logger().info('Trying to get out of stall')
+        # Detect potential stall
+        elif front_lidar_min < SAFE_STOP_DISTANCE:
             if self.turtlebot_moving == True:
                 self.cmd.linear.x = 0.0 
                 self.cmd.angular.z = 0.0 
                 self.publisher_.publish(self.cmd)
                 self.turtlebot_moving = False
+                self.stall = True
                 self.get_logger().info('Stopping')
                 return
         # If object in way, just turn left until we can move forward
-        elif front_lidar_min < 0.5 * LIDAR_AVOID_DISTANCE:
+        elif front_lidar_min < 0.9 * LIDAR_AVOID_DISTANCE:
                 self.cmd.linear.x = 0.07 
                 self.cmd.angular.z = 0.3
                 self.publisher_.publish(self.cmd)
@@ -244,15 +293,15 @@ class WallFollow(Node):
                     self.following_wall = True
         # Once the bot is following the wall, adjust left and right movement to ensure we stay close to wall
         elif self.following_wall:
-            if right_lidar_min < LIDAR_AVOID_DISTANCE:
-                self.cmd.linear.x = 0.3
-                self.cmd.angular.z = 0.5
+            if right_lidar_min < WALL_DISTANCE:
+                self.cmd.linear.x = 0.05
+                self.cmd.angular.z = 0.4
                 self.publisher_.publish(self.cmd)
                 self.get_logger().info('Turning left away from wall')
-            elif right_lidar_min > 1.2 * LIDAR_AVOID_DISTANCE:
+            elif right_lidar_min > 2 * WALL_DISTANCE:
                 # Sanity check
-                self.cmd.linear.x = 0.0
-                self.cmd.angular.z = -0.5
+                self.cmd.linear.x = 0.05
+                self.cmd.angular.z = -0.4
                 self.publisher_.publish(self.cmd)
                 self.get_logger().info('Turning right towards wall')
             else:
@@ -283,10 +332,11 @@ class WallFollow(Node):
 def main(args=None):
     # initialize the ROS communication
     rclpy.init(args=args)
+
     # declare the node constructor
     # random_walk_node = RandomWalk()
-
     wall_follow_node = WallFollow()
+
     # pause the program execution, waits for a request to kill the node (ctrl+c)
     # rclpy.spin(random_walk_node)
     rclpy.spin(wall_follow_node)

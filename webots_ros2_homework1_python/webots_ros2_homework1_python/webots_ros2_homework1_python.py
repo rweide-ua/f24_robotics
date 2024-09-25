@@ -159,8 +159,8 @@ class WallFollow(Node):
             QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT))
         
         # CSV for plotting
-        trial_number = 4
-        starting_pos = "area3"
+        trial_number = 6
+        starting_pos = "area1"
         print(os.getcwd())
         self.csv_file = open(f'webots_ros2_homework1_python/webots_ros2_homework1_python/csv/{starting_pos}/trial{trial_number}.csv', mode='a', newline='')
         self.csv_writer = csv.writer(self.csv_file)
@@ -178,6 +178,9 @@ class WallFollow(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.following_wall = False
+
+        self.starting_point = None
+        self.farthest_distance = 0
 
     # Reads scan and cleans it
     def listener_callback1(self, msg1):
@@ -208,15 +211,22 @@ class WallFollow(Node):
 
         self.get_logger().info('self position: {},{},{}'.format(posx,posy,posz))
         # similarly for twist message if you need
-        self.pose_saved=position
         
-        #Example of how to identify a stall..need better tuned position deltas; wheels spin and example fast
-        #diffX = math.fabs(self.pose_saved.x- position.x)
-        #diffY = math.fabs(self.pose_saved.y - position.y)
+        if self.pose_saved == '':
+            self.pose_saved = position
+            self.starting_point = position
+        else:
+            distance_from_start = math.sqrt((posx - self.starting_point.x)**2 + (posy - self.starting_point.y)**2)
+            if distance_from_start > self.farthest_distance:
+                self.farthest_distance = distance_from_start
+
+        self.get_logger().info('Farthest distance: {}'.format(self.farthest_distance))
         #if (diffX < 0.0001 and diffY < 0.0001):
            #self.stall = True
         #else:
            #self.stall = False
+        
+        self.pose_saved=position
            
         return None
 

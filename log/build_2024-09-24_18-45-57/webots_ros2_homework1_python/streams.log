@@ -1,0 +1,25 @@
+[1.214s] Invoking command in '/mnt/g/Programming/CS 460/f24_robotics/webots_ros2_homework1_python': PYTHONPATH=/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/webots_ros2_homework1_python build --build-base /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build install --record /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log --single-version-externally-managed install_data
+[1.688s] running egg_info
+[1.691s] writing ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/PKG-INFO
+[1.695s] writing dependency_links to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/dependency_links.txt
+[1.699s] writing entry points to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/entry_points.txt
+[1.701s] writing requirements to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/requires.txt
+[1.704s] writing top-level names to ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/top_level.txt
+[1.728s] reading manifest file '../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/SOURCES.txt'
+[1.772s] writing manifest file '../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info/SOURCES.txt'
+[1.773s] running build
+[1.773s] running build_py
+[1.782s] copying webots_ros2_homework1_python/webots_ros2_homework1_python.py -> /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build/lib/webots_ros2_homework1_python
+[1.805s] running install
+[1.806s] running install_lib
+[1.827s] copying /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build/lib/webots_ros2_homework1_python/webots_ros2_homework1_python.py -> /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python
+[1.861s] byte-compiling /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python/webots_ros2_homework1_python.py to webots_ros2_homework1_python.cpython-310.pyc
+[1.890s] running install_data
+[1.912s] copying worlds/f23_robotics_1.wbt -> /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/share/webots_ros2_homework1_python/worlds
+[1.948s] running install_egg_info
+[1.955s] removing '/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python-0.0.0-py3.10.egg-info' (and everything under it)
+[1.986s] Copying ../build/webots_ros2_homework1_python/webots_ros2_homework1_python.egg-info to /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages/webots_ros2_homework1_python-0.0.0-py3.10.egg-info
+[2.117s] running install_scripts
+[2.160s] Installing webots_ros2_homework1_python script to /mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/webots_ros2_homework1_python
+[2.167s] writing list of installed files to '/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log'
+[2.182s] Invoked command in '/mnt/g/Programming/CS 460/f24_robotics/webots_ros2_homework1_python' returned '0': PYTHONPATH=/mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/mnt/g/Programming/CS 460/f24_robotics/install/webots_ros2_homework1_python/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../build/webots_ros2_homework1_python build --build-base /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/build install --record /mnt/g/Programming/CS 460/f24_robotics/build/webots_ros2_homework1_python/install.log --single-version-externally-managed install_data
